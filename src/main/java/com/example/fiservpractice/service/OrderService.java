@@ -17,7 +17,7 @@ public class OrderService {
 
     public Order getOrderDetails(Long id) {
         log.info("Inside getOrderDetails()");
-        return OrderDao.getOrderDetails(id);
+        return orderDao.getOrderDetails(id);
     }
 
     public String placeAnOrder(Order order) {
@@ -26,7 +26,7 @@ public class OrderService {
     }
 
     public String removeOrder(Long id) {
-        OrderDao.removeOrder(id);
+        orderDao.removeOrder(id);
         return "Entity has deleted.!";
     }
 

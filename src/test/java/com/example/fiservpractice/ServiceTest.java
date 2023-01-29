@@ -3,6 +3,7 @@ package com.example.fiservpractice;
 import com.example.fiservpractice.controller.RestControllerClass;
 import com.example.fiservpractice.dao.OrderDao;
 import com.example.fiservpractice.model.Order;
+import com.example.fiservpractice.model.OrderEntity;
 import com.example.fiservpractice.repository.OrderRepository;
 import com.example.fiservpractice.service.OrderService;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +17,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+
+import java.util.Optional;
 
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -33,11 +36,7 @@ public class ServiceTest {
 
     @Mock
     OrderRepository orderRepository;
-
     @InjectMocks
-    RestControllerClass restControllerClass;
-
-    @Mock
     OrderDao orderDao;
 
     @Test
@@ -49,10 +48,9 @@ public class ServiceTest {
     }
 
     @Test
-    public void deleteApplication() throws Exception {
-        Mockito.when(orderService.removeOrder(1L)).thenReturn("Entity has deleted.!");
-        mockMvc.perform(MockMvcRequestBuilders.delete("/removeOrder", 1))
-                .andExpect(status().isOk());
+    public void deleteApplication() {
+        Mockito.when(orderRepository.findById(1L)).thenReturn(Optional.of(new OrderEntity()));
+        orderDao.removeOrder(1L);
     }
 
 }

@@ -12,7 +12,7 @@ import java.util.Optional;
 @Component
 public class OrderDao {
 
-    static OrderRepository orderRepository;
+    private final OrderRepository orderRepository;
 
     public OrderDao(OrderRepository orderRepository) {
         this.orderRepository = orderRepository;
@@ -47,7 +47,7 @@ public class OrderDao {
         return "Total payable amount is: $" + String.valueOf(totalAmount);
     }
 
-    public static Order getOrderDetails(Long orderId) throws IllegalStateException {
+    public Order getOrderDetails(Long orderId) throws IllegalStateException {
         Optional<OrderEntity> orderOptional = orderRepository.findById(orderId);
         if (orderOptional.isEmpty()) {
             throw new IllegalStateException("Cannot find product with orderId: " + orderId);
@@ -61,7 +61,7 @@ public class OrderDao {
                 .build();
     }
 
-    public static void removeOrder(Long id) {
+    public void removeOrder(Long id) {
         Optional<OrderEntity> orderEntity = orderRepository.findById(id);
         orderRepository.delete(orderEntity.get());
         log.info("Deletion is done.!");
