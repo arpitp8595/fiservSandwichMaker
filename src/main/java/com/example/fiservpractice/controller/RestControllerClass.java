@@ -22,7 +22,8 @@ public class RestControllerClass {
         this.orderService = orderService;
     }
 
-    @RequestMapping(method = RequestMethod.GET, value ="/getOrderDetails")
+    //@RequestMapping(method = RequestMethod.GET, value ="/getOrderDetails") // optional way
+    @GetMapping("/getOrderDetails")
     public Order getOrderDetails(@PathParam("/id") Long id) {
         return orderService.getOrderDetails(id);
     }
