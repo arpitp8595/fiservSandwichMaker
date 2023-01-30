@@ -36,6 +36,7 @@ public class ServiceTest {
 
     @Mock
     OrderRepository orderRepository;
+
     @InjectMocks
     OrderDao orderDao;
 
@@ -51,6 +52,12 @@ public class ServiceTest {
     public void deleteApplication() {
         Mockito.when(orderRepository.findById(1L)).thenReturn(Optional.of(new OrderEntity()));
         orderDao.removeOrder(1L);
+    }
+
+    @Test
+    public void getOrderTest () {
+        Mockito.when(orderRepository.findById(1L)).thenReturn(Optional.of(new OrderEntity()));
+        orderDao.getOrderDetails(1L);
     }
 
 }
