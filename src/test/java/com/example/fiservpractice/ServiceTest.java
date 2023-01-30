@@ -1,6 +1,5 @@
 package com.example.fiservpractice;
 
-import com.example.fiservpractice.controller.RestControllerClass;
 import com.example.fiservpractice.dao.OrderDao;
 import com.example.fiservpractice.model.Order;
 import com.example.fiservpractice.model.OrderEntity;
@@ -9,20 +8,17 @@ import com.example.fiservpractice.service.OrderService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @Slf4j
 @ExtendWith(MockitoExtension.class)
@@ -50,14 +46,17 @@ public class ServiceTest {
 
     @Test
     public void deleteApplication() {
-        Mockito.when(orderRepository.findById(1L)).thenReturn(Optional.of(new OrderEntity()));
+        OrderEntity orderEntity = new OrderEntity(1L, "White", "beef", true, false, "6");
+        Mockito.when(orderRepository.findById(1L)).thenReturn(Optional.of(orderEntity));
         orderDao.removeOrder(1L);
+        verify(orderRepository, times(1)).delete(orderEntity);
     }
 
     @Test
     public void getOrderTest () {
-        Mockito.when(orderRepository.findById(1L)).thenReturn(Optional.of(new OrderEntity()));
-        orderDao.getOrderDetails(1L);
+        Mockito.when(orderRepository.findById(1L)).thenReturn(Optional.of(new OrderEntity(1L, "White", "beef", true, false, "6")));
+        Order orderObj = orderDao.getOrderDetails(1L);
+        assertThat(orderObj.getMeat()).isEqualToIgnoringCase("beef");
     }
 
 }
